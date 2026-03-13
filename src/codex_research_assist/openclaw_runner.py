@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""OpenClaw skill CLI entry point for codex-research-assist.
+"""OpenClaw skill CLI entry point for research-assist.
 
 No FastMCP dependency — pure CLI that outputs markdown to stdout.
 
@@ -60,11 +60,11 @@ def _review_fallback_to_system(config: dict) -> bool:
 def _telegram_send_enabled(config: dict) -> bool:
     delivery_cfg = config.get("delivery", {})
     if not isinstance(delivery_cfg, dict):
-        return True
+        return False
     telegram_cfg = delivery_cfg.get("telegram", {})
     if not isinstance(telegram_cfg, dict):
-        return True
-    return _config_bool(telegram_cfg.get("send_enabled", True), True)
+        return False
+    return _config_bool(telegram_cfg.get("send_enabled", False), False)
 
 
 def _email_config(config: dict) -> dict:

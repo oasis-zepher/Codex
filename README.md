@@ -88,7 +88,17 @@
 
 ## Quick start
 
-### 1. Install
+### Option A — One-click agent setup (recommended)
+
+If you already use **Claude Code**, **Codex CLI**, **Gemini CLI**, or any LLM-backed coding assistant, paste this single message into your agent:
+
+> **Read the README at `https://github.com/zlg/research-assist` and follow `references/setup-routing.md` to set up research-assist for me interactively.**
+
+The agent will clone the repo, ask you a few focused questions based on what you actually need (minimal digest, Zotero integration, email delivery, etc.), write `config.json`, and summarize what was enabled — all in one conversation.
+
+### Option B — Manual install
+
+#### 1. Install
 
 ```bash
 git clone <this-repo> && cd research-assist
@@ -97,7 +107,7 @@ uv sync
 
 That's it. One command installs all dependencies.
 
-### 2. Set up config
+#### 2. Set up config
 
 ```bash
 # Create the skill directory and copy the example config
@@ -113,7 +123,7 @@ Then edit `~/.openclaw/skills/research-assist/config.json` for your setup.
 > **If you are an agent**, do not ask the user to fill out a long config form.
 > Instead, follow [`references/setup-routing.md`](references/setup-routing.md) — it tells you exactly which questions to ask based on what the user wants to do.
 
-### 3. Run
+#### 3. Run
 
 ```bash
 # Full digest: profile check → arXiv retrieval → rank → HTML output
@@ -135,7 +145,7 @@ uv run research-assist --action render-digest \
 uv run research-assist-zotero-mcp
 ```
 
-### 4. Build a portable skill package
+#### 4. Build a portable skill package
 
 ```bash
 uv run python scripts/distribution/build_skill_package.py
@@ -226,6 +236,21 @@ openclaw_runner.py          ← CLI entry point, markdown/HTML to stdout
     ├── email_sender.py         → SMTP delivery
     └── telegram_fmt/sender.py  → Telegram delivery
 ```
+
+## Agent compatibility
+
+research-assist is designed as an **agent-native skill**. It works with any LLM-backed tool that can read files, run CLI commands, and follow structured instructions.
+
+| Agent / Tool | Compatibility | Notes |
+|---|---|---|
+| **Claude Code** | Full | Read `SKILL.md` + `references/setup-routing.md` for interactive setup |
+| **Codex CLI** | Full | Same workflow; the codebase was originally scaffolded with Codex |
+| **Gemini CLI** | Full | Follows the same `references/setup-routing.md` route |
+| **OpenClaw** | Full | Native skill contract via `SKILL.md` |
+| **Cursor / Windsurf / Cline** | Works | Can read docs and run CLI; no MCP server needed for basic usage |
+| **Any MCP-capable agent** | Full + MCP | Can connect to the bundled Zotero MCP server for live library access |
+
+The key design: all intelligence lives in the **host agent**, not inside the pipeline. The pipeline is pure data operations (retrieval, ranking, formatting). The agent decides what to enrich, what to keep, and what feedback to write back.
 
 ## For agents: how to use this skill
 

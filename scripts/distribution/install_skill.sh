@@ -26,9 +26,11 @@ copy_file "pyproject.toml"
 copy_file "uv.lock"
 copy_dir "src"
 copy_dir "references"
-copy_dir "automation"
 copy_dir "reports"
 copy_dir "profiles"
+
+# Optional directories — copy only if present in package
+[[ -d "$SCRIPT_DIR/automation" ]] && copy_dir "automation"
 
 mkdir -p "$TARGET_ROOT/profiles" "$TARGET_ROOT/reports"
 

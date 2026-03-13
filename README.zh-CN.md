@@ -88,7 +88,17 @@
 
 ## 快速开始
 
-### 1. 安装
+### 方式 A — 一键 agent 配置（推荐）
+
+如果你已经在用 **Claude Code**、**Codex CLI**、**Gemini CLI** 或任何由 LLM 驱动的编程助手，把下面这段话粘贴给你的 agent 就行：
+
+> **读取 `https://github.com/zlg/research-assist` 的 README，然后按照 `references/setup-routing.md` 为我交互式地配置 research-assist。**
+
+agent 会自动 clone 仓库，根据你实际需要的功能（最小 digest、Zotero 集成、邮件投递等）问你几个有针对性的问题，写好 `config.json`，并总结本次启用了哪些能力——全在一次对话里完成。
+
+### 方式 B — 手动安装
+
+#### 1. 安装
 
 ```bash
 git clone <this-repo> && cd research-assist
@@ -97,7 +107,7 @@ uv sync
 
 就这些。一条命令安装全部依赖。
 
-### 2. 配置
+#### 2. 配置
 
 ```bash
 # Create the skill directory and copy the example config
@@ -113,7 +123,7 @@ cp profiles/research-interest.example.json \
 > **如果你是一个 agent**，不要让用户手填一大串配置表。
 > 直接遵循 [`references/setup-routing.md`](references/setup-routing.md) 的路由逻辑，它会明确告诉你该根据用户目标询问哪些问题。
 
-### 3. 运行
+#### 3. 运行
 
 ```bash
 # 完整 digest：检查画像 → arXiv 检索 → 排序 → HTML 输出
@@ -135,7 +145,7 @@ uv run research-assist --action render-digest \
 uv run research-assist-zotero-mcp
 ```
 
-### 4. 构建可分发 skill 包
+#### 4. 构建可分发 skill 包
 
 ```bash
 uv run python scripts/distribution/build_skill_package.py
@@ -226,6 +236,21 @@ openclaw_runner.py          ← CLI 入口，向 stdout 输出 markdown/HTML
     ├── email_sender.py         → SMTP 投递
     └── telegram_fmt/sender.py  → Telegram 投递
 ```
+
+## Agent 兼容性
+
+research-assist 从设计之初就是一个 **agent 原生的 skill**。它可以与任何能读文件、跑 CLI 命令并遵循结构化指令的 LLM 驱动工具配合使用。
+
+| Agent / 工具 | 兼容程度 | 备注 |
+|---|---|---|
+| **Claude Code** | 完整 | 读取 `SKILL.md` + `references/setup-routing.md` 即可交互式配置 |
+| **Codex CLI** | 完整 | 同样的工作流；本代码库最初由 Codex 脚手架搭建 |
+| **Gemini CLI** | 完整 | 遵循相同的 `references/setup-routing.md` 路由 |
+| **OpenClaw** | 完整 | 通过 `SKILL.md` 原生支持 skill 契约 |
+| **Cursor / Windsurf / Cline** | 可用 | 可读取文档并运行 CLI；基础功能无需 MCP 服务器 |
+| **任何支持 MCP 的 agent** | 完整 + MCP | 可连接内置 Zotero MCP 服务器以实时访问文库 |
+
+核心设计：所有的智能判断都在 **宿主 agent** 而不在流水线内。流水线只做纯数据操作（检索、排序、格式化），agent 决定丰富什么、保留什么、写回什么反馈。
 
 ## 给 agents：如何使用这个 skill
 

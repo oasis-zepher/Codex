@@ -15,15 +15,21 @@ FILE_ENTRIES = [
     "config.example.json",
     "pyproject.toml",
     "uv.lock",
-    "automation/arxiv-profile-digest.example.toml",
     "profiles/research-interest.example.json",
 ]
 
 DIR_ENTRIES = [
     "src",
     "references",
-    "automation/prompts",
     "reports/schema",
+]
+
+OPTIONAL_FILE_ENTRIES = [
+    "automation/arxiv-profile-digest.example.toml",
+]
+
+OPTIONAL_DIR_ENTRIES = [
+    "automation/prompts",
 ]
 
 
@@ -70,6 +76,12 @@ def build() -> tuple[Path, Path, Path]:
         _copy_tree(rel, package_root)
     for rel in DIR_ENTRIES:
         _copy_tree(rel, package_root)
+    for rel in OPTIONAL_FILE_ENTRIES:
+        if (REPO_ROOT / rel).exists():
+            _copy_tree(rel, package_root)
+    for rel in OPTIONAL_DIR_ENTRIES:
+        if (REPO_ROOT / rel).exists():
+            _copy_tree(rel, package_root)
 
     install_src = REPO_ROOT / "scripts" / "distribution" / "install_skill.sh"
     install_dst = package_root / "install.sh"

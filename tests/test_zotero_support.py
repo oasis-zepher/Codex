@@ -40,7 +40,7 @@ class ProfileContractTest(unittest.TestCase):
             ],
         }
         normalized = normalize_profile_payload(payload)
-        self.assertEqual(normalized["maintainer"], "codex-research-assist")
+        self.assertEqual(normalized["maintainer"], "someone-else")
         self.assertEqual(normalized["interests"][0]["method_keywords"], ["PINN"])
         self.assertEqual(
             normalized["interests"][0]["query_aliases"],
