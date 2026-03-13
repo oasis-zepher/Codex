@@ -7,8 +7,8 @@
   },
   "semantic_search": {
     "enabled": true,
-    "zotero_db_path": "/home/zlg/code/research-assist-zotero-wt/temp/semantic-test/zotero-data/zotero.sqlite",
-    "persist_directory": "/home/zlg/code/research-assist-zotero-wt/temp/semantic-test/chroma_db",
+    "zotero_db_path": "temp/semantic-test/zotero-data/zotero.sqlite",
+    "persist_directory": "temp/semantic-test/chroma_db",
     "collection_name": "research_assist_zotero_test",
     "embedding_model": "fastembed",
     "local_group_id": 6433210,

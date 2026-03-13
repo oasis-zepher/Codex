@@ -11,7 +11,7 @@ group id, and local `zotero.sqlite` path are stored for testing.
 
 ```bash
 set -a
-source /home/zlg/code/research-assist-zotero-wt/temp/private/zotero-test.env
+source temp/private/zotero-test.env
 set +a
 ```
 
