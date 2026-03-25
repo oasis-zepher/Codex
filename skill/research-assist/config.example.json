@@ -1,0 +1,96 @@
+{
+  "profile_path": "./profiles/research-interest.json",
+  "output_root": "./runtime/reports",
+  "review_generation": {
+    "agent_top_n": 8,
+    "final_top_n": 5,
+    "fallback_to_system": true
+  },
+  "delivery": {
+    "primary_channel": "email",
+    "email": {
+      "send_enabled": false,
+      "sender": "",
+      "recipients": [],
+      "smtp_server": "",
+      "smtp_port": 465,
+      "smtp_user": "",
+      "smtp_pass": "",
+      "tls_mode": "ssl",
+      "timeout": 20,
+      "subject_prefix": "[research-assist]",
+      "attach_html": true,
+      "attach_digest_json": false,
+      "write_metadata": true,
+      "telegram_fallback_on_failure": true
+    },
+    "telegram": {
+      "send_enabled": false,
+      "write_html": true,
+      "write_metadata": true
+    }
+  },
+  "zotero": {
+    "library_id": "",
+    "api_key": "",
+    "library_type": "user",
+    "scope_collection": "",
+    "profile_collections": [],
+    "profile_tags": [],
+    "feedback_default_collections": [],
+    "feedback_default_tags": [
+      "research-assist"
+    ]
+  },
+  "semantic_search": {
+    "enabled": true,
+    "zotero_db_path": "",
+    "persist_directory": "./runtime/semantic-search",
+    "collection_name": "research_assist_zotero",
+    "embedding_model": "qwen",
+    "embedding_config": {
+      "base_url": "http://localhost:11434/v1"
+    },
+    "local_group_id": null,
+    "local_library_id": null,
+    "extract_fulltext": false,
+    "update_config": {
+      "auto_update": true,
+      "update_frequency": "daily",
+      "last_update": null,
+      "update_days": 7
+    },
+    "extraction": {
+      "pdf_max_pages": 10
+    }
+  },
+  "literature_sources": {
+    "enabled": [
+      "arxiv"
+    ],
+    "openalex": {
+      "api_key": "",
+      "mailto": ""
+    },
+    "semantic_scholar": {
+      "api_key": ""
+    }
+  },
+  "retrieval_defaults": {
+    "max_results_per_interest": 20,
+    "since_days": 7,
+    "max_age_days": 7,
+    "state_path": "./runtime/state/arxiv_profile_seen.json"
+  },
+  "skill_runtime": {
+    "default_entry": "daily",
+    "daily": {
+      "rebuild_semantic_index": true,
+      "semantic_rebuild_timeout_sec": 45,
+      "digest_timeout_sec": 180,
+      "fallback_disable_semantic": true,
+      "fallback_use_latest_successful_run": true,
+      "render_chinese_html": true
+    }
+  }
+}

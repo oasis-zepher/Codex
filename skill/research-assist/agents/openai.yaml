@@ -1,0 +1,7 @@
+interface:
+  display_name: "Research Assist"
+  short_description: "本地 Zotero 语义检索与中文 digest skill"
+  default_prompt: "$research-assist daily"
+
+policy:
+  allow_implicit_invocation: true
