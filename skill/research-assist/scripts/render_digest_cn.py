@@ -1202,9 +1202,10 @@ def render_html(summary_path: Path, output_path: Path) -> None:
 
 
 def default_output_path(summary_path: Path, summary: dict[str, Any]) -> Path:
+    _ = summary_path
     run = summary.get("run", {})
     date_str = format_date(str(run.get("generated_at") or ""))
-    return summary_path.parent / f"digest-{date_str}.zh-CN.html"
+    return REPO_ROOT / "reports" / "generated" / f"digest-{date_str}.zh-CN.html"
 
 
 def main() -> None:

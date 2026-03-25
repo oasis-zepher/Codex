@@ -13,7 +13,7 @@ uv run python scripts/skill_runner.py daily --config ./config.json
 3. migrate legacy untracked runtime artifacts into `./runtime/` when safe
 4. rebuild the local semantic index when semantic search is enabled and available
 5. run the normal digest
-6. render a Chinese-localized sibling HTML
+6. render a Chinese-localized user-facing HTML under `./reports/generated/`
 
 ## Preflight Checks
 
@@ -72,6 +72,6 @@ After a successful daily run, the key artifacts are:
 
 - one latest `*.run-summary.json`
 - one English digest HTML from the packaged pipeline
-- one Chinese-localized `*.zh-CN.html` rendered by `scripts/render_digest_cn.py`
+- one Chinese-localized `*.zh-CN.html` rendered by `scripts/render_digest_cn.py` under `./reports/generated/`
 
 The Chinese HTML should be treated as the default user-facing deliverable.

@@ -18,9 +18,13 @@ These files are the stable control surface for Codex.
 
 Generated or machine-local artifacts should live under `./runtime/` whenever possible:
 
-- `runtime/reports/` — digest HTML, run summaries, retrieval manifests, candidate artifacts
+- `runtime/reports/` — run summaries, retrieval manifests, candidate artifacts, and machine-facing digest outputs
 - `runtime/state/` — seen-state or incremental retrieval state
 - `runtime/semantic-search/` — local semantic index persistence
+
+User-facing Chinese digest HTML is published to:
+
+- `reports/generated/` — shallow, easy-to-open `digest-*.zh-CN.html` artifacts
 
 The repo-local Python environment stays at `.venv/` because `uv sync` owns that path.
 
