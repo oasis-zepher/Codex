@@ -7,8 +7,11 @@ dist/
 .state/
 .semantic-search/
 .openclaw/
+~/
 runtime/
 runtime/**
+automation/logs/
+automation/logs/**
 Zotero
 config.json
 profiles/research-interest.json
