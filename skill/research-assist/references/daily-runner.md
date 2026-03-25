@@ -73,5 +73,6 @@ After a successful daily run, the key artifacts are:
 - one latest `*.run-summary.json`
 - one English digest HTML from the packaged pipeline
 - one Chinese-localized `*.zh-CN.html` rendered by `scripts/render_digest_cn.py` under `./reports/generated/`
+- one stable alias `./reports/generated/latest.zh-CN.html` that always points to the newest Chinese digest HTML
 
 The Chinese HTML should be treated as the default user-facing deliverable.

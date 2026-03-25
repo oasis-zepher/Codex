@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import socket
 import subprocess
 import sys
@@ -304,12 +305,24 @@ def latest_summary(output_root: Path, *, require_candidates: bool = False) -> Pa
     return None
 
 
-def render_cn_digest(summary_path: Path) -> Path:
+def publish_latest_cn_alias(output_path: Path) -> Path | None:
+    alias_path = output_path.parent / "latest.zh-CN.html"
+    try:
+        if alias_path.exists() or alias_path.is_symlink():
+            alias_path.unlink()
+        shutil.copyfile(output_path, alias_path)
+    except OSError:
+        return None
+    return alias_path
+
+
+def render_cn_digest(summary_path: Path) -> tuple[Path, Path | None]:
     summary = load_json(summary_path)
     output_path = default_output_path(summary_path, summary)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     render_html(summary_path, output_path)
-    return output_path
+    alias_path = publish_latest_cn_alias(output_path)
+    return output_path, alias_path
 
 
 def disable_semantic_in_config(config: dict[str, Any]) -> dict[str, Any]:
@@ -386,10 +399,12 @@ def run_daily(config_path: Path, *, preflight_only: bool = False) -> int:
         print(result.stderr.strip())
         fallback_summary = latest_summary(output_root, require_candidates=True) if output_root else None
         if runtime_daily.get("fallback_use_latest_successful_run", True) and fallback_summary is not None:
-            zh_path = render_cn_digest(fallback_summary)
+            zh_path, latest_zh_path = render_cn_digest(fallback_summary)
             print("\n# fallback artifact")
             print(f"- reused latest summary: {fallback_summary.as_posix()}")
             print(f"- chinese html: {zh_path.as_posix()}")
+            if latest_zh_path is not None:
+                print(f"- latest chinese html: {latest_zh_path.as_posix()}")
             return 0
         return result.returncode
 
@@ -397,10 +412,12 @@ def run_daily(config_path: Path, *, preflight_only: bool = False) -> int:
         print("No digest run summary found after a successful digest run.")
         return 1
 
-    zh_path = render_cn_digest(summary_path)
+    zh_path, latest_zh_path = render_cn_digest(summary_path)
     print("\n# artifacts")
     print(f"- summary: {summary_path.as_posix()}")
     print(f"- chinese html: {zh_path.as_posix()}")
+    if latest_zh_path is not None:
+        print(f"- latest chinese html: {latest_zh_path.as_posix()}")
     return 0
 
 
