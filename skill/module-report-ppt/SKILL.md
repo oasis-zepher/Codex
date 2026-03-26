@@ -1,17 +1,17 @@
 ---
-name: literature-report-ppt
-description: Create Chinese-first literature-report PPT decks for a specific project module, not a generic digest. Use when Codex needs to explain how literature connects to one module inside a project, generate a module-focused PPTX for lab meetings, or turn a project/module brief plus selected papers into an editable presentation deck.
+name: module-report-ppt
+description: Create Chinese-first module-report PPT decks and editable PPTX files for a specific project area. Use when the user asks for a 模块汇报, 模块相关性分析, PartA/PartB 汇报 PPT, or wants slides explaining one module's role, supporting literature, current gaps, and next steps inside a project.
 ---
 
-# Literature Report PPT
+# Module Report PPT
 
-Use this skill when the user wants a literature deck anchored to:
+Use this skill when the user wants a module deck anchored to:
 
 - a project root
 - one module, subsystem, feature slice, or research direction inside that project
-- a small set of relevant papers that explain or support that module
+- one analysis scope such as `模块相关性分析`, `PartA`, or `PartB`
 
-Do not default to a full daily digest. The module is the center; papers are evidence around that module.
+Do not default to a generic literature digest. The module is the center; papers are evidence around that module.
 
 ## Default Workflow
 
@@ -21,11 +21,13 @@ Do not default to a full daily digest. The module is the center; papers are evid
 Commands:
 
 ```bash
-cd ~/Bio/Codex/skill/literature-report-ppt
+cd ~/Bio/Codex/skill/module-report-ppt
 npm install
 python3 scripts/build_module_brief.py \
   --project-root ~/Bio/Codex \
   --module skill/research-assist \
+  --analysis-title "模块相关性分析" \
+  --part "PartB" \
   --role "本地文献检索与摘要流水线" \
   --goal "说明该模块当前能力、缺口，以及需要关注的文献方向" \
   --summary ~/Bio/Codex/skill/research-assist/runtime/reports/<run>.run-summary.json \
@@ -33,7 +35,7 @@ python3 scripts/build_module_brief.py \
 
 node scripts/build_deck.mjs \
   --brief-json /tmp/module-brief.json \
-  --out ./output/module-literature-report.pptx
+  --out ./output/module-report-partb.pptx
 ```
 
 ## Input Model
@@ -44,6 +46,7 @@ The brief should describe:
 
 - project name and root
 - module name and relative path
+- analysis title and optional `PartA` / `PartB`
 - module role, goal, current state, key files, recent changes, open questions
 - selected papers that matter to this module
 - why each paper is relevant, what can be borrowed, and what the limitations are
@@ -55,6 +58,7 @@ The brief should describe:
 The deck should read like a module briefing:
 
 - what this module does in the project
+- which analysis slice this deck belongs to, such as `模块相关性分析 PartB`
 - why literature matters for this module now
 - which papers are worth discussing
 - what those papers imply for implementation or next steps

@@ -1,7 +1,7 @@
 interface:
   display_name: "Research Diary"
   short_description: "围绕项目模块生成今日科研日记与 Obsidian 记录"
-  default_prompt: "Use $research-diary to create or update today's module-scoped research diary."
+  default_prompt: "Use $research-diary to generate today's module-scoped diary markdown."
 
 policy:
   allow_implicit_invocation: true

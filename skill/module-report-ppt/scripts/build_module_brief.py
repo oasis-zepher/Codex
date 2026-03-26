@@ -103,6 +103,8 @@ def main() -> None:
     parser.add_argument("--module", required=True, help="Module path relative to project root")
     parser.add_argument("--project-name", default=None, help="Optional override for project name")
     parser.add_argument("--module-name", default=None, help="Optional override for module name")
+    parser.add_argument("--analysis-title", default="模块汇报", help="Analysis title, e.g. 模块相关性分析")
+    parser.add_argument("--part", default="", help="Optional section label such as PartA or PartB")
     parser.add_argument("--role", default="", help="Role of this module inside the project")
     parser.add_argument("--goal", default="", help="What this literature report should help answer")
     parser.add_argument("--theme", default="", help="Literature theme for this module")
@@ -123,6 +125,10 @@ def main() -> None:
         "project": {
             "name": args.project_name or project_root.name,
             "root": project_root.as_posix(),
+        },
+        "report": {
+            "analysis_title": args.analysis_title,
+            "part": args.part,
         },
         "module": {
             "name": args.module_name or Path(module_rel).name,

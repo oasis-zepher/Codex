@@ -1,7 +1,0 @@
-interface:
-  display_name: "Literature PPT"
-  short_description: "围绕项目模块生成中文文献汇报 PPT 与讲稿提纲"
-  default_prompt: "Use $literature-report-ppt to build a module-focused literature deck for one project area."
-
-policy:
-  allow_implicit_invocation: true

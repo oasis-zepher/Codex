@@ -62,6 +62,7 @@ function deckDate(brief) {
 
 function buildOutline(brief, deckTitle, subtitle, dateText) {
   const project = brief.project || {};
+  const report = brief.report || {};
   const module = brief.module || {};
   const literature = brief.literature || {};
   const lines = [
@@ -70,6 +71,7 @@ function buildOutline(brief, deckTitle, subtitle, dateText) {
     `- 日期：${dateText}`,
     `- 项目：${project.name || "Unknown project"}`,
     `- 模块：${module.name || module.path || "Unknown module"}`,
+    `- 分析：${compact(report.analysis_title || "模块汇报", 80)} ${compact(report.part || "", 20)}`.trim(),
     `- 场景：${subtitle || "项目模块文献汇报"}`,
     "",
     "## 模块定位",
@@ -118,6 +120,7 @@ function addBullets(slide, items, options) {
 function addTitleSlide(pptx, theme, brief, deckTitle, subtitle, dateText) {
   const slide = pptx.addSlide();
   const project = brief.project || {};
+  const report = brief.report || {};
   const module = brief.module || {};
   slide.background = { color: theme.colors.bg };
   slide.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 13.33, h: 0.35, fill: { color: theme.colors.accent } });
@@ -132,6 +135,10 @@ function addTitleSlide(pptx, theme, brief, deckTitle, subtitle, dateText) {
   addTextBox(slide, `项目：${project.name || "Unknown"} | 模块：${module.name || module.path || "Unknown"} | 日期：${dateText}`, {
     x: 0.65, y: 2.55, w: 10.8, h: 0.35,
     fontFace: theme.fonts.body, fontSize: 11, color: theme.colors.muted
+  });
+  addTextBox(slide, `${report.analysis_title || "模块汇报"} ${report.part || ""}`.trim(), {
+    x: 0.65, y: 3.0, w: 6.0, h: 0.35,
+    fontFace: theme.fonts.body, fontSize: 12.5, bold: true, color: theme.colors.accent
   });
   slide.addShape(pptx.ShapeType.roundRect, {
     x: 9.6, y: 1.0, w: 2.5, h: 1.05,
@@ -206,8 +213,9 @@ function addLiteratureNeedSlide(pptx, theme, brief) {
   const slide = pptx.addSlide();
   const module = brief.module || {};
   const literature = brief.literature || {};
+  const report = brief.report || {};
   slide.background = { color: "FFFFFF" };
-  addTextBox(slide, "为什么现在要做这部分文献汇报", {
+  addTextBox(slide, `为什么现在要做这部分${report.analysis_title || "模块汇报"}`, {
     x: 0.55, y: 0.42, w: 6.8, h: 0.4,
     fontFace: theme.fonts.title, fontSize: 21, bold: true, color: theme.colors.ink
   });
@@ -339,12 +347,14 @@ async function main() {
   const briefPath = resolveInput(args["brief-json"]);
   const brief = readJson(briefPath);
   const theme = readJson(path.join(SKILL_ROOT, "assets", "deck-theme.json"));
+  const report = brief.report || {};
   const module = brief.module || {};
   const project = brief.project || {};
   const dateText = deckDate(brief);
-  const deckTitle = args.title || `${project.name || "Project"} / ${module.name || module.path || "Module"} 文献汇报`;
-  const subtitle = args.subtitle || "围绕单个项目模块组织文献、问题与实现建议";
-  const outPath = resolveInput(args.out || path.join(process.cwd(), "output", `${String(module.name || "module").replace(/\s+/g, "-").toLowerCase()}-literature-report.pptx`));
+  const defaultAnalysisTitle = `${report.analysis_title || "模块汇报"}${report.part ? ` ${report.part}` : ""}`.trim();
+  const deckTitle = args.title || `${project.name || "Project"} / ${module.name || module.path || "Module"} ${defaultAnalysisTitle}`;
+  const subtitle = args.subtitle || "围绕单个项目模块组织问题、文献证据与实现建议";
+  const outPath = resolveInput(args.out || path.join(process.cwd(), "output", `${String(module.name || "module").replace(/\s+/g, "-").toLowerCase()}-${String(report.part || "report").toLowerCase()}-module-report.pptx`));
   const outDir = path.dirname(outPath);
   ensureDir(outDir);
 
