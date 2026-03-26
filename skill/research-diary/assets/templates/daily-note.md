@@ -1,29 +1,31 @@
 ---
 date: {{date}}
+project: {{project}}
+module: {{module}}
 tags:
   - research-diary
-  - daily-note
+  - module-note
 ---
 
-# {{date}} 科研日记
+# {{date}} | {{project}} / {{module}}
 
-## 今日主线
+## 今日目标
 - 
 
-## 文献速记
+## 模块现状
 - 
 
-## 实验 / 代码进展
+## 今日完成
 - 
 
-## 新想法
+## 改动文件
+- 
+
+## 关键决策
 - 
 
 ## Blockers
 - 
 
-## 明日计划
-- 
-
-## 附件与路径
+## 下一步
 - 

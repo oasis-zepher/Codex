@@ -1,11 +1,11 @@
 # Vault Layout
 
-The vault layout is intentionally simple and works without Obsidian plugins:
+The vault is organized around projects and modules, not only by date:
 
-- `01 Daily Notes/` — one daily note per day
+- `01 Projects/<project>/<module>/Daily/` — one daily note per day for that module
+- `01 Projects/<project>/<module>/Context.md` — stable module context
 - `02 Literature Notes/` — per-paper reading notes
 - `03 Experiments/` — experiment logs and code runs
-- `04 Ideas/` — rough ideas and future hypotheses
 - `05 Meetings/` — lab meeting / mentor meeting notes
 - `06 Slides/` — links to exported PPTX and talk outlines
 - `90 Assets/` — figures or attachments
@@ -13,18 +13,20 @@ The vault layout is intentionally simple and works without Obsidian plugins:
 
 ## Daily Note Expectations
 
-Each daily note should make it easy to answer:
+Each module daily note should answer:
 
-- what I planned to do today
-- what actually happened
-- what papers matter today
-- what is blocked
-- what I will do tomorrow
+- what this module was supposed to achieve today
+- what code / docs changed
+- what decisions were made
+- what is currently blocked
+- what should happen next
 
-## Digest Integration
+## Automatic Module Update
 
-When `research-assist` has produced a fresh run summary, append:
+`append_module_update.py` appends:
 
-- summary path
-- HTML digest path
-- top 3 papers with recommendation and one-line reason
+- project root and module path
+- current worktree changes for that module
+- recent commits touching that module
+
+This is scaffolding. The actual reasoning and conclusions should still be written by the agent or user.

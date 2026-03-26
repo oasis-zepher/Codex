@@ -2,38 +2,65 @@
 
 ## Main Use Case
 
-Build a lab-meeting deck from a `research-assist` run summary:
+Build a literature-report deck for one module inside a project:
 
 ```bash
+python3 scripts/build_module_brief.py \
+  --project-root ~/Bio/Codex \
+  --module skill/research-assist \
+  --role "本地文献检索与摘要流水线" \
+  --goal "说明当前模块能力与文献方向" \
+  --out /tmp/module-brief.json
+
 node scripts/build_deck.mjs \
-  --summary ~/Bio/Codex/skill/research-assist/runtime/reports/<run>.run-summary.json \
-  --out ./output/literature-briefing.pptx
+  --brief-json /tmp/module-brief.json \
+  --out ./output/module-literature-report.pptx
 ```
 
-## Slide Structure
+## Brief Schema
+
+The JSON brief should contain these top-level objects:
+
+- `project`
+  - `name`
+  - `root`
+- `module`
+  - `name`
+  - `path`
+  - `role`
+  - `goal`
+  - `current_state`
+  - `key_files[]`
+  - `recent_commits[]`
+  - `worktree_changes[]`
+  - `open_questions[]`
+- `literature`
+  - `theme`
+  - `papers[]`
+
+Each paper should have:
+
+- `title`
+- `authors`
+- `year`
+- `url`
+- `takeaway`
+- `relevance_to_module`
+- `limitations`
+- `next_use`
+
+## Deck Layout
 
 The bundled script generates:
 
 1. title slide
-2. daily overview slide
-3. one slide per selected paper
-4. final action slide
-
-## Summary Field Mapping
-
-When the input is a `research-assist` run summary:
-
-- `artifacts.candidate_paths[]` -> selected paper JSON files
-- `paper.title` -> slide title
-- `paper.authors`, `paper.year`, `paper.identifiers` -> citation row
-- `review.recommendation` -> badge / priority
-- `review.why_it_matters` -> why relevant block
-- `review.quick_takeaways[]` -> bullet list
-- `review.caveats[]` -> risk / caveat block
-- `triage.matched_interest_labels[]` -> topic tags
+2. project/module context
+3. why literature matters for the module now
+4. one slide per selected paper
+5. implementation next steps
 
 ## Local Limitations
 
-- The current environment can generate `.pptx` files, but does not have `soffice` or `pdftoppm`.
-- That means the skill can create editable slides, but cannot fully render-check PDF exports or pixel previews locally.
-- Keep layouts conservative enough to survive small font fallback differences.
+- The current environment can generate `.pptx` files.
+- It does not currently have `soffice` or `pdftoppm`, so full render QA is limited.
+- Keep slide density conservative and use short bullet items.

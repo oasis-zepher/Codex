@@ -10,10 +10,9 @@ SKILL_ROOT = Path(__file__).resolve().parent.parent
 TEMPLATE_ROOT = SKILL_ROOT / "assets" / "templates"
 
 DIRS = [
-    "01 Daily Notes",
+    "01 Projects",
     "02 Literature Notes",
     "03 Experiments",
-    "04 Ideas",
     "05 Meetings",
     "06 Slides",
     "90 Assets",
