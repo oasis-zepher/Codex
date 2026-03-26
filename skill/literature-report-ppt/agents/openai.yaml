@@ -1,0 +1,7 @@
+interface:
+  display_name: "Literature PPT"
+  short_description: "生成中文文献汇报 PPT、讲稿备注与演示大纲"
+  default_prompt: "Use $literature-report-ppt to turn today's digest or a paper brief into a presentation deck."
+
+policy:
+  allow_implicit_invocation: true

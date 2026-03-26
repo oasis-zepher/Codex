@@ -1,0 +1,7 @@
+interface:
+  display_name: "Research Diary"
+  short_description: "生成今日科研日记、digest 摘要与 Obsidian 记录模板"
+  default_prompt: "Use $research-diary to create or update today's research diary in an Obsidian-style vault."
+
+policy:
+  allow_implicit_invocation: true

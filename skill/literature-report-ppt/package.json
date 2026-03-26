@@ -1,0 +1,11 @@
+{
+  "name": "literature-report-ppt",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build_deck.mjs"
+  },
+  "dependencies": {
+    "pptxgenjs": "^3.12.0"
+  }
+}
