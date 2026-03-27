@@ -1,0 +1,2 @@
+research-assist -> /Users/zephyr/Bio/Codex/skill/research-assist
+research-diary -> /Users/zephyr/Bio/Codex/skill/research-diary

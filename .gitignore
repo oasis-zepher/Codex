@@ -1,2 +1,15 @@
 .DS_Store
 **/.DS_Store
+.codex/.personality_migration
+.codex/auth.json
+.codex/history.jsonl
+.codex/log/
+.codex/memories/
+.codex/models_cache.json
+.codex/sessions/
+.codex/shell_snapshots/
+.codex/state_*.sqlite
+.codex/state_*.sqlite-*
+.codex/tmp/
+.codex/version.json
+.codex/skills/.system/
