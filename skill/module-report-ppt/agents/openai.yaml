@@ -1,7 +1,0 @@
-interface:
-  display_name: "Module Report PPT"
-  short_description: "围绕项目模块生成汇报 PPT、PartA/PartB 与提纲"
-  default_prompt: "Use $module-report-ppt to build a module-focused report deck, such as a PartB module relevance analysis PPT."
-
-policy:
-  allow_implicit_invocation: true
