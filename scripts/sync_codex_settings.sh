@@ -3,8 +3,10 @@ set -euo pipefail
 
 HOME_CODEX="${HOME}/.codex"
 REPO_CODEX="/Users/zephyr/Bio/Codex/.codex"
+REPO_IMPECCABLE="/Users/zephyr/Bio/Codex/skill/impeccable"
 
 mkdir -p "${REPO_CODEX}/rules" "${REPO_CODEX}/skills"
+mkdir -p "${REPO_IMPECCABLE}"
 
 if [[ -f "${HOME_CODEX}/config.toml" ]]; then
   cp -f "${HOME_CODEX}/config.toml" "${REPO_CODEX}/config.toml"
@@ -24,6 +26,9 @@ while IFS= read -r skill_dir; do
 
   mkdir -p "${REPO_CODEX}/skills/${skill_name}"
   rsync -a --delete "${HOME_CODEX}/skills/${skill_name}/" "${REPO_CODEX}/skills/${skill_name}/"
+
+  mkdir -p "${REPO_IMPECCABLE}/${skill_name}"
+  rsync -a --delete "${HOME_CODEX}/skills/${skill_name}/" "${REPO_IMPECCABLE}/${skill_name}/"
 done < <(find -L "${HOME_CODEX}/skills" -maxdepth 1 -mindepth 1 -type d | sort)
 
 {
@@ -32,3 +37,4 @@ done < <(find -L "${HOME_CODEX}/skills" -maxdepth 1 -mindepth 1 -type d | sort)
 } > "${REPO_CODEX}/skills/local-links.txt"
 
 printf 'Synced Codex settings to %s\n' "${REPO_CODEX}"
+printf 'Synced third-party skills to %s\n' "${REPO_IMPECCABLE}"
