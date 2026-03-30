@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shutil
 import socket
 import subprocess
@@ -30,6 +31,13 @@ from render_digest_cn import (
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
+def visible_abspath(path_value: str | Path, *, base_dir: Path | None = None) -> Path:
+    path = Path(path_value).expanduser()
+    if not path.is_absolute() and base_dir is not None:
+        path = base_dir / path
+    return Path(os.path.abspath(os.fspath(path)))
+
+
 @dataclass
 class Check:
     name: str
@@ -42,10 +50,7 @@ def resolve_path(config_path: Path, raw_path: str | None, *, default: str | None
     target = raw_path or default
     if not target:
         return None
-    path = Path(target).expanduser()
-    if path.is_absolute():
-        return path.resolve()
-    return (REPO_ROOT / path).resolve()
+    return visible_abspath(target, base_dir=REPO_ROOT)
 
 
 def load_config(config_path: Path) -> dict[str, Any]:
@@ -481,13 +486,13 @@ def main() -> None:
 
     args = parser.parse_args()
     command = args.command or "daily"
+    config_path = visible_abspath(args.config)
 
     if command == "daily":
-        raise SystemExit(run_daily(args.config.expanduser().resolve(), preflight_only=args.preflight_only))
+        raise SystemExit(run_daily(config_path, preflight_only=args.preflight_only))
     if command == "top3":
-        raise SystemExit(run_top3(args.config.expanduser().resolve(), fresh=args.fresh))
+        raise SystemExit(run_top3(config_path, fresh=args.fresh))
     if command == "preflight":
-        config_path = args.config.expanduser().resolve()
         config = load_config(config_path)
         checks, _paths = preflight(config_path, config)
         print(print_checks(checks))

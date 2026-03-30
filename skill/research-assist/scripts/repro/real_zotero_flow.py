@@ -16,6 +16,7 @@ from codex_research_assist.openclaw_runner import (
     get_profile_path,
     load_config,
 )
+from codex_research_assist.path_utils import expand_visible_path
 from codex_research_assist.zotero_mcp.config import load_zotero_config
 from codex_research_assist.zotero_mcp.server import (
     zotero_get_search_database_status,
@@ -64,7 +65,7 @@ def _write_text(target: Path, content: str) -> None:
 
 
 def _runtime_root(config_path: Path, run_id: str | None) -> Path:
-    base_dir = config_path.expanduser().resolve().parent
+    base_dir = expand_visible_path(config_path).parent
     return base_dir / "runtime" / (run_id or _utc_now_slug())
 
 
@@ -228,7 +229,7 @@ def main() -> None:
     parser.add_argument("--digest-json", type=Path, default=None, help="Digest manifest path for render-digest")
     args = parser.parse_args()
 
-    config_path = args.config.expanduser().resolve()
+    config_path = expand_visible_path(args.config)
     config = load_config(config_path)
     runtime_root = _runtime_root(config_path, args.run_id)
     runtime_root.mkdir(parents=True, exist_ok=True)
@@ -259,7 +260,7 @@ def main() -> None:
                 semantic_query=args.semantic_query,
                 index_limit=max(1, args.index_limit),
                 force_rebuild=args.force_rebuild,
-                digest_json=args.digest_json.expanduser().resolve() if args.digest_json else None,
+                digest_json=expand_visible_path(args.digest_json) if args.digest_json else None,
             )
         )
 
