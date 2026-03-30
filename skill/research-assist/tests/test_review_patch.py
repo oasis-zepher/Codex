@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import json
+import tempfile
 import unittest
+from pathlib import Path
 
-from codex_research_assist.review_patch import merge_review_patch, validate_review_patch
+from codex_research_assist.review_patch import apply_review_patch, merge_review_patch, validate_review_patch
 
 
 class ReviewPatchTest(unittest.TestCase):
@@ -128,6 +131,61 @@ class ReviewPatchTest(unittest.TestCase):
         }
         with self.assertRaisesRegex(ValueError, "unsupported review keys"):
             validate_review_patch(patch)
+
+    def test_apply_review_patch_preserves_visible_temp_path(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            candidate_path = root / "candidate.json"
+            patch_path = root / "patch.json"
+            candidate_path.write_text(
+                json.dumps(
+                    {
+                        "candidate": {"candidate_id": "cand-1"},
+                        "review": {
+                            "review_status": "pending",
+                            "reviewer_summary": None,
+                            "zotero_comparison": None,
+                            "recommendation": "unset",
+                            "why_it_matters": None,
+                            "selected_for_digest": None,
+                            "quick_takeaways": [],
+                            "caveats": [],
+                            "generation": None,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            patch_path.write_text(
+                json.dumps(
+                    {
+                        "candidate_id": "cand-1",
+                        "review": {
+                            "review_status": "agent_completed",
+                            "reviewer_summary": "Short synthesis.",
+                            "zotero_comparison": {
+                                "status": "not_found",
+                                "summary": "No close Zotero match found.",
+                                "related_items": [],
+                            },
+                            "recommendation": "watch",
+                            "why_it_matters": "Useful adjacent paper.",
+                            "selected_for_digest": False,
+                            "quick_takeaways": ["Adjacent to current profile"],
+                            "caveats": ["Evidence is abstract-only."],
+                            "generation": {
+                                "mode": "agent_zotero_fill",
+                                "sources": ["profile", "candidate"],
+                            },
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            target = apply_review_patch(candidate_path, patch_path)
+
+        self.assertEqual(target.as_posix(), candidate_path.as_posix())
 
 
 if __name__ == "__main__":

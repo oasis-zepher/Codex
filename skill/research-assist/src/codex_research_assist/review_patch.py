@@ -5,6 +5,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from .path_utils import expand_visible_path
+
 
 def _as_string_list(value: Any, *, field_name: str) -> list[str]:
     if not isinstance(value, list):
@@ -142,8 +144,8 @@ def merge_review_patch(candidate: dict[str, Any], patch: dict[str, Any]) -> dict
 
 
 def apply_review_patch(candidate_path: str | Path, patch_path: str | Path) -> Path:
-    candidate_file = Path(candidate_path).expanduser().resolve()
-    patch_file = Path(patch_path).expanduser().resolve()
+    candidate_file = expand_visible_path(candidate_path)
+    patch_file = expand_visible_path(patch_path)
     candidate = json.loads(candidate_file.read_text(encoding="utf-8"))
     patch = json.loads(patch_file.read_text(encoding="utf-8"))
     merged = merge_review_patch(candidate, patch)

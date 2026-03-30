@@ -9,6 +9,8 @@ from email.message import EmailMessage
 from pathlib import Path
 from typing import Any
 
+from .path_utils import expand_visible_path
+
 
 def _as_string_list(value: Any) -> list[str]:
     if value is None:
@@ -74,7 +76,7 @@ def send_email(
     if not smtp_user.strip() or not smtp_pass.strip():
         raise RuntimeError("SMTP credentials are not configured")
 
-    attachment_paths = [Path(item).expanduser().resolve() for item in (attachments or [])]
+    attachment_paths = [expand_visible_path(item) for item in (attachments or [])]
     message = _build_message(
         subject=subject,
         body_text=body_text,

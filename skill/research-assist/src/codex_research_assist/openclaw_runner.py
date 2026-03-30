@@ -13,7 +13,6 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import os
 import sys
 import tempfile
 from datetime import datetime, timezone
@@ -32,6 +31,7 @@ from .controller.profile_refresh_policy import evaluate_profile_refresh_policy
 from .digest_summary import write_digest_run_summary
 from .email_sender import send_email
 from .html_fmt import format_digest_html, format_search_html
+from .path_utils import expand_visible_path
 from .ranker import rank_candidates
 from .review_digest import enrich_candidates_with_system_review
 from .telegram_fmt import format_digest_telegram, format_search_telegram
@@ -528,8 +528,7 @@ def load_config(path: Path) -> dict:
 
 
 def expand_path(path_str: str) -> Path:
-    path = Path(path_str).expanduser()
-    return Path(os.path.abspath(os.fspath(path)))
+    return expand_visible_path(path_str)
 
 
 def get_profile_path(config: dict) -> Path:

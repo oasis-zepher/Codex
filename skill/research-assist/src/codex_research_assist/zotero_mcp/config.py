@@ -8,6 +8,8 @@ from typing import Any
 
 from dotenv import load_dotenv
 
+from ..path_utils import expand_visible_path
+
 
 DEFAULT_SKILL_ROOT = Path.home() / ".openclaw" / "skills" / "research-assist"
 DEFAULT_CONFIG_PATH = DEFAULT_SKILL_ROOT / "config.json"
@@ -15,12 +17,7 @@ DEFAULT_ENV_PATH = DEFAULT_SKILL_ROOT / ".env"
 
 
 def _expand_path(path_text: str, *, base_dir: Path | None = None) -> Path:
-    path = Path(path_text).expanduser()
-    if path.is_absolute():
-        return Path(os.path.abspath(os.fspath(path)))
-    if base_dir is not None:
-        return Path(os.path.abspath(os.fspath(base_dir / path)))
-    return Path(os.path.abspath(os.fspath(path)))
+    return expand_visible_path(path_text, base_dir=base_dir)
 
 
 def _as_string_list(value: Any) -> list[str]:
