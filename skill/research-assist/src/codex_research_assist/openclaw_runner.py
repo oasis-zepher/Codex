@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 import sys
 import tempfile
 from datetime import datetime, timezone
@@ -527,7 +528,8 @@ def load_config(path: Path) -> dict:
 
 
 def expand_path(path_str: str) -> Path:
-    return Path(path_str).expanduser().resolve()
+    path = Path(path_str).expanduser()
+    return Path(os.path.abspath(os.fspath(path)))
 
 
 def get_profile_path(config: dict) -> Path:
@@ -655,7 +657,7 @@ def _candidate_json_paths(candidates: list[dict]) -> list[Path]:
     for candidate in candidates:
         json_path = candidate.get("candidate", {}).get("json_path")
         if isinstance(json_path, str) and json_path:
-            paths.append(Path(json_path).expanduser().resolve())
+            paths.append(expand_path(json_path))
     return paths
 
 

@@ -48,11 +48,12 @@ fi
 if [[ "$created_config" == "1" ]]; then
   python3 - "$TARGET_ROOT/config.json" "$TARGET_ROOT" <<'PY'
 import json
+import os
 import sys
 from pathlib import Path
 
 config_path = Path(sys.argv[1])
-target_root = Path(sys.argv[2]).expanduser().resolve()
+target_root = Path(os.path.abspath(os.fspath(Path(sys.argv[2]).expanduser())))
 
 payload = json.loads(config_path.read_text(encoding="utf-8"))
 payload["profile_path"] = str(target_root / "profiles" / "research-interest.json")
