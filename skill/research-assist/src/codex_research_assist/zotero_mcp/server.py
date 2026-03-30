@@ -11,7 +11,7 @@ from fastmcp import FastMCP
 
 from ..arxiv_profile_pipeline.profile_contract import normalize_profile_payload
 from .client import ZoteroClient
-from .config import load_zotero_config
+from .config import _expand_path, load_zotero_config
 from .feedback import normalize_feedback_payload
 from .profile_evidence import build_profile_evidence_summary
 from .semantic_search import create_semantic_search
@@ -185,7 +185,7 @@ def zotero_write_profile(
     """Normalize and write the live research-interest profile JSON."""
     cfg = load_zotero_config(config_path)
     normalized = normalize_profile_payload(profile_payload)
-    resolved_path = Path(target_path).expanduser().resolve() if target_path else cfg.profile_path
+    resolved_path = _expand_path(target_path) if target_path else cfg.profile_path
     resolved_path.parent.mkdir(parents=True, exist_ok=True)
     resolved_path.write_text(
         json.dumps(normalized, ensure_ascii=False, indent=2),

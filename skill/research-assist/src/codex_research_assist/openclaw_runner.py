@@ -1094,7 +1094,7 @@ def action_search(query: str, top: int = 5, fmt: str = "markdown", config: dict 
 def action_render_digest(config: dict, digest_json: Path, fmt: str = "markdown") -> str:
     output_root = get_output_root(config)
     output_root.mkdir(parents=True, exist_ok=True)
-    digest_json_path = digest_json.expanduser().resolve()
+    digest_json_path = expand_path(str(digest_json))
     candidates = _load_candidates_from_digest(digest_json_path)
     candidates = _filter_final_digest_candidates(candidates, final_limit=_final_digest_limit(config))
     profile_path = get_profile_path(config)

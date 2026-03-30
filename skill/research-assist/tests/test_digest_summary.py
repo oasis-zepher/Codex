@@ -4,9 +4,10 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from codex_research_assist.digest_summary import summary_output_path, write_digest_run_summary
-from codex_research_assist.openclaw_runner import _format_digest_email_body
+from codex_research_assist.openclaw_runner import _format_digest_email_body, action_render_digest
 from codex_research_assist.openclaw_runner import _filter_final_digest_candidates, _persist_ranked_candidate_paths
 
 
@@ -87,6 +88,38 @@ class DigestSummaryTest(unittest.TestCase):
         self.assertIn("Current profile", html)
         self.assertIn("03/12", html)
         self.assertIn("every 60 days", html)
+
+    def test_action_render_digest_preserves_visible_digest_path(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            digest_json = root / "digest.json"
+            digest_json.write_text(json.dumps({"candidate_paths": []}), encoding="utf-8")
+
+            observed: dict[str, Path] = {}
+
+            def _capture(
+                digest_json_path: Path,
+                candidates: list[dict],
+                output_root: Path,
+                fmt: str,
+                config: dict,
+                action_name: str,
+                profile_path: Path | None,
+            ) -> str:
+                observed["digest_json_path"] = digest_json_path
+                return "ok"
+
+            with patch("codex_research_assist.openclaw_runner._render_digest_outputs", side_effect=_capture):
+                result = action_render_digest(
+                    {
+                        "output_root": str(root / "reports"),
+                        "profile_path": str(root / "profiles" / "research-interest.json"),
+                    },
+                    digest_json=digest_json,
+                )
+
+        self.assertEqual(result, "ok")
+        self.assertEqual(observed["digest_json_path"].as_posix(), digest_json.as_posix())
 
 
 if __name__ == "__main__":

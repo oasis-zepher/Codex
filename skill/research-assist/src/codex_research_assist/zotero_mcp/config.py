@@ -17,10 +17,10 @@ DEFAULT_ENV_PATH = DEFAULT_SKILL_ROOT / ".env"
 def _expand_path(path_text: str, *, base_dir: Path | None = None) -> Path:
     path = Path(path_text).expanduser()
     if path.is_absolute():
-        return path.resolve()
+        return Path(os.path.abspath(os.fspath(path)))
     if base_dir is not None:
-        return (base_dir / path).resolve()
-    return path.resolve()
+        return Path(os.path.abspath(os.fspath(base_dir / path)))
+    return Path(os.path.abspath(os.fspath(path)))
 
 
 def _as_string_list(value: Any) -> list[str]:

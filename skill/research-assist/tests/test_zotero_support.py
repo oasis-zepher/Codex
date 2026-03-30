@@ -9,6 +9,7 @@ from pathlib import Path
 from codex_research_assist.arxiv_profile_pipeline.profile_contract import normalize_profile_payload
 from codex_research_assist.profile_refresh_output import parse_profile_refresh_output
 from codex_research_assist.zotero_mcp.chroma_client import ChromaClient
+from codex_research_assist.zotero_mcp.config import load_zotero_config
 from codex_research_assist.zotero_mcp.feedback import (
     build_feedback_note,
     decision_status_tag,
@@ -178,6 +179,30 @@ class ConfigRoundTripTest(unittest.TestCase):
             path.write_text(json.dumps(normalize_profile_payload(payload)), encoding="utf-8")
             loaded = json.loads(path.read_text(encoding="utf-8"))
             self.assertEqual(loaded["profile_id"], "demo")
+
+    def test_load_zotero_config_preserves_visible_temp_paths(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            config_path = root / "config.json"
+            profile_path = root / "profiles" / "research-interest.json"
+            config_path.write_text(
+                json.dumps(
+                    {
+                        "profile_path": str(profile_path),
+                        "semantic_search": {"persist_directory": str(root / ".semantic-search")},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            cfg = load_zotero_config(config_path)
+
+        self.assertEqual(cfg.config_path.as_posix(), config_path.as_posix())
+        self.assertEqual(cfg.profile_path.as_posix(), profile_path.as_posix())
+        self.assertEqual(
+            cfg.semantic_persist_directory.as_posix(),
+            (root / ".semantic-search").as_posix(),
+        )
 
 
 class ProfileRefreshOutputTest(unittest.TestCase):
