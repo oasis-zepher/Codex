@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-label="nike design preview">
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#111111" />
+      <stop offset="100%" stop-color="#f5f5f5" />
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" x2="100%" y1="0%" y2="0%">
+      <stop offset="0%" stop-color="#fafafa" stop-opacity="0.92" />
+      <stop offset="100%" stop-color="#f5f5f5" stop-opacity="0.92" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="20" stdDeviation="28" flood-color="#000000" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="720" fill="url(#bg)" />
+  <circle cx="1030" cy="110" r="180" fill="#fafafa" fill-opacity="0.18" />
+  <circle cx="170" cy="640" r="220" fill="#f5f5f5" fill-opacity="0.20" />
+  <rect x="44" y="44" width="1112" height="632" rx="32" fill="#ffffff" fill-opacity="0.08" stroke="#ffffff" stroke-opacity="0.16"/>
+  <text x="64" y="92" fill="#f8fafc" font-size="22" letter-spacing="2.8">DESIGN PRESET</text>
+  <text x="64" y="164" fill="#f8fafc" font-size="60" font-weight="700">nike</text>
+  <text x="64" y="208" fill="#d4d4d8" font-size="26">Design System Inspired by Nike</text>
+  <text x="64" y="260" fill="#f8fafc" font-size="22">Primary font: System UI</text>
+  <text x="64" y="320" fill="#f8fafc" font-size="24">Nike.com is a kinetic retail cathedral — a site that channels the explosive energy of...</text>
+  <rect x="64" y="360" width="490" height="248" rx="28" fill="#ffffff" filter="url(#shadow)"/>
+  <rect x="64" y="360" width="490" height="10" rx="10" fill="url(#glow)"/>
+  <text x="72" y="400" fill="#111111" font-size="24" font-weight="700">Key Characteristics</text>
+  <circle cx="72" cy="405" r="4" fill="#fafafa"/><text x="88" y="410" fill="#111111" font-size="20">Monochromatic UI (black/white/grey) that lets produ...</text><circle cx="72" cy="443" r="4" fill="#fafafa"/><text x="88" y="448" fill="#111111" font-size="20">Massive uppercase display typography (96px, line-he...</text><circle cx="72" cy="481" r="4" fill="#fafafa"/><text x="88" y="486" fill="#111111" font-size="20">Full-bleed photography with no border radius — imag...</text>
+  <rect x="610" y="120" width="504" height="212" rx="28" fill="#ffffff" fill-opacity="0.10" stroke="#ffffff" stroke-opacity="0.18"/>
+  <text x="648" y="172" fill="#f8fafc" font-size="18" letter-spacing="2">PALETTE</text>
+  <rect x="64" y="520" width="56" height="56" rx="16" fill="#111111" /><rect x="136" y="520" width="56" height="56" rx="16" fill="#ffffff" /><rect x="208" y="520" width="56" height="56" rx="16" fill="#fafafa" /><rect x="280" y="520" width="56" height="56" rx="16" fill="#f5f5f5" /><rect x="352" y="520" width="56" height="56" rx="16" fill="#e5e5e5" />
+  <rect x="648" y="230" width="378" height="14" rx="7" fill="#fafafa" />
+  <rect x="648" y="262" width="290" height="14" rx="7" fill="#f5f5f5" />
+  <rect x="648" y="294" width="334" height="14" rx="7" fill="#ffffff" />
+  <rect x="610" y="372" width="504" height="236" rx="28" fill="#111111" fill-opacity="0.16" stroke="#ffffff" stroke-opacity="0.12"/>
+  <text x="648" y="424" fill="#f8fafc" font-size="18" letter-spacing="2">STYLE SIGNAL</text>
+  <text x="648" y="484" fill="#f8fafc" font-size="44" font-weight="700">NIKE</text>
+  <text x="648" y="530" fill="#d4d4d8" font-size="24">Nike.com is a kinetic retail cathedral...</text>
+  <rect x="648" y="560" width="172" height="18" rx="9" fill="#fafafa" />
+  <rect x="836" y="560" width="118" height="18" rx="9" fill="#f5f5f5" />
+  <rect x="970" y="560" width="86" height="18" rx="9" fill="#ffffff" />
+</svg>
